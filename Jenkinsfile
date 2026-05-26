@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     environment {
-        npm = '"C:\\Program Files\\nodejs\\npm.cmd"'
-        node = '"C:\\Program Files\\nodejs\\node.exe"'
+        PATH = "C:\\Program Files\\nodejs;${env.PATH}"
     }
 
     stages {
@@ -11,28 +10,28 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the application...'
-                bat '"C:\\Program Files\\nodejs\\npm.cmd" install'
+                bat 'npm install'
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Running tests...'
-                bat '"C:\\Program Files\\nodejs\\npm.cmd" test'
+                bat 'npm test'
             }
         }
 
         stage('Code Quality') {
             steps {
                 echo 'Code quality check...'
-                bat '"C:\\Program Files\\nodejs\\npm.cmd" audit || exit 0'
+                bat 'npm audit || exit 0'
             }
         }
 
         stage('Security') {
             steps {
                 echo 'Security audit...'
-                bat '"C:\\Program Files\\nodejs\\npm.cmd" audit --audit-level=high || exit 0'
+                bat 'npm audit --audit-level=high || exit 0'
             }
         }
 
